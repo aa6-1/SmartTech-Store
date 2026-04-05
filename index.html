@@ -150,7 +150,7 @@ nav { max-width:1200px; margin:0 auto; padding:0 2rem; height:100%; display:flex
 .ss-hist-item:hover, .ss-sugg-item:hover { background:var(--clr-bg); }
 .ss-hist-item i, .ss-sugg-item i { color:var(--clr-text-muted); font-size:.85rem; flex-shrink:0; }
 .ss-hist-item span, .ss-sugg-item span { font-size:.9rem; flex:1; }
-.ss-del { background:none; border:none; color:var(--clr-border); cursor:pointer; font-size:.75rem; padding:2px 6px; border-radius:4px; }
+.ss-del { background:none; border:none; color:var(--clr-border); cursor:pointer; font-size:.75rem; padding:2px 6px; }
 .ss-del:hover { color:var(--clr-danger); }
 .ss-results-wrap { border-top:1px solid var(--clr-border); }
 .ss-result-item { display:flex; align-items:center; gap:.85rem; padding:.6rem 1.2rem; cursor:pointer; transition:background .15s; }
@@ -354,7 +354,7 @@ body.dark-mode .stock-badge.out { background:#7f1d1d44; color:#fca5a5; }
 .view-btn { width:32px; height:32px; border:1.5px solid var(--clr-border); border-radius:var(--radius-sm); background:var(--clr-card); color:var(--clr-text-muted); cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:.9rem; transition:all .2s; }
 .view-btn.active, .view-btn:hover { border-color:var(--clr-primary); color:var(--clr-primary); background:var(--clr-primary-light); }
 .products-layout { display:flex; flex-direction:row-reverse; gap:1.4rem; align-items:flex-start; }
-.filters-sidebar { width:270px; flex-shrink:0; background:var(--clr-card); border-radius:var(--radius-lg); padding:1.4rem; box-shadow:0 2px 10px var(--clr-shadow); position:sticky; top:calc(var(--header-h) + 12px); border:1px solid var(--clr-border); }
+.filters-sidebar { width:270px; flex-shrink:0; background:var(--clr-card); border-radius:var(--radius-lg); padding:1.4rem; box-shadow:0 2px 10px var(--clr-shadow); position:sticky; top:calc(var(--header-h) + 12px); border:1px solid var(--clr-border); max-height: calc(100vh - var(--header-h) - 24px); overflow-y: auto; }
 .filters-sidebar h3 { font-size:.95rem; font-weight:700; margin-bottom:1rem; color:var(--clr-primary); display:flex; align-items:center; gap:.5rem; }
 .filter-section { margin-bottom:1.3rem; }
 .filter-title { font-size:.75rem; font-weight:700; color:var(--clr-text-muted); margin-bottom:.55rem; text-transform:uppercase; letter-spacing:.5px; }
@@ -502,10 +502,12 @@ body.dark-mode .stock-badge.out { background:#7f1d1d44; color:#fca5a5; }
 
 /* ========== TOAST ========== */
 .toast-container { position:fixed; bottom:20px; right:20px; z-index:9999; display:flex; flex-direction:column; gap:.5rem; align-items:flex-end; }
-.toast { background:var(--clr-success); color:#fff; padding:.8rem 1.4rem; border-radius:var(--radius-md); box-shadow:0 4px 20px rgba(0,0,0,.2); animation:toastIn .3s ease,toastOut .3s ease 2.7s forwards; max-width:300px; font-size:.9rem; font-weight:500; display:flex; align-items:center; gap:.5rem; }
+.toast { background:var(--clr-success); color:#fff; padding:.8rem 1.4rem; border-radius:var(--radius-md); box-shadow:0 4px 20px rgba(0,0,0,.2); animation:toastIn .3s ease,toastOut .3s ease 2.7s forwards; max-width:300px; font-size:.9rem; font-weight:500; display:flex; align-items:center; gap:.5rem; overflow:hidden; position:relative; }
 .toast.error { background:var(--clr-danger); }
 @keyframes toastIn { from{transform:translateX(100%);opacity:0} to{transform:none;opacity:1} }
 @keyframes toastOut { to{transform:translateX(100%);opacity:0} }
+.toast-bar { position:absolute; bottom:0; left:0; height:3px; background:rgba(255,255,255,.3); animation:tbAnim 2.7s linear forwards; }
+@keyframes tbAnim { from{width:100%} to{width:0%} }
 .spinner { display:inline-block; width:20px; height:20px; border:2.5px solid rgba(255,255,255,.3); border-top-color:#fff; border-radius:50%; animation:spin .8s linear infinite; }
 @keyframes spin { to{transform:rotate(360deg)} }
 
@@ -597,6 +599,31 @@ body.lang-en .toast-container { right:auto; left:20px; }
 .status-icon.cancelled-step { background: #ef4444; border-color: #ef4444; color: #fff; }
 .status-label { font-size: .65rem; color: var(--clr-text-muted); line-height: 1.2; }
 .status-label.done, .status-label.active { color: var(--clr-text); font-weight: 600; }
+
+/* ========== FAB ========== */
+#fabContainer { position:fixed; bottom:22px; left:22px; z-index:900; display:flex; flex-direction:column; gap:.6rem; }
+body.lang-en #fabContainer { left:auto; right:22px; }
+#fabWA, #fabTop { width:50px; height:50px; border-radius:50%; border:none; cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:1.3rem; box-shadow:0 4px 18px rgba(0,0,0,.2); transition:transform .2s,opacity .3s; }
+#fabWA { background:#25D366; color:#fff; }
+#fabWA:hover { transform:scale(1.1); }
+#fabTop { background:var(--clr-primary); color:#fff; }
+#fabTop:hover { transform:scale(1.1) translateY(-2px); }
+@media(max-width:768px) { #fabContainer { bottom:14px; left:14px; } body.lang-en #fabContainer { left:auto; right:14px; } #fabWA, #fabTop { width:44px; height:44px; } }
+
+/* ========== SCROLL REVEAL ========== */
+.sr-hide { opacity:0; transform:translateY(14px); transition:opacity .22s ease,transform .22s ease; }
+.sr-show { opacity:1; transform:none; }
+
+/* ========== ANIMATIONS ========== */
+@keyframes heartPop { 0%{transform:scale(1)} 40%{transform:scale(1.5)} 70%{transform:scale(.85)} 100%{transform:scale(1)} }
+.heart-pop { animation:heartPop .3s ease; }
+@keyframes badgePop { 0%{transform:scale(1)} 50%{transform:scale(1.5)} 100%{transform:scale(1)} }
+.badge-pop { animation:badgePop .28s ease; }
+@keyframes cartPop { 0%{transform:scale(1)} 50%{transform:scale(1.3)} 100%{transform:scale(1)} }
+.cart-pop { animation:cartPop .25s ease; }
+.fly-dot { position:fixed; width:12px; height:12px; background:var(--clr-primary); border-radius:50%; pointer-events:none; z-index:9999; }
+#app { transition:opacity .15s ease; }
+#app.page-fade { opacity:0; }
 
 </style>
 </head>
@@ -790,7 +817,7 @@ body.lang-en .toast-container { right:auto; left:20px; }
     </div>
     <div class="footer-section">
       <h4 data-key="contact_us">تواصل معنا</h4>
-      <p><i class="fas fa-envelope"></i> <a href="/cdn-cgi/l/email-protection#6f021d07020e59585d5d2f08020e0603410c0002"><span class="__cf_email__" data-cfemail="90fde2f8fdf1a6a7a2a2d0f7fdf1f9fcbef3fffd">[email&#160;protected]</span></a></p>
+      <p><i class="fas fa-envelope"></i> <a href="/cdn-cgi/l/email-protection#4f221d07020e59585d5d0f28222e2623612c2022"><span class="__cf_email__" data-cfemail="a6cbd4cecbc795949191e6c1cbc7cfca88c5c9cb">[email&#160;protected]</span></a></p>
       <p><i class="fas fa-phone"></i> +971 56 343 3056</p>
     </div>
   </div>
@@ -977,7 +1004,8 @@ function initFirebase() {
   if (typeof firebase === 'undefined') return;
   try {
     firebase.initializeApp(fbCfg);
-    auth = firebase.auth(); db = firebase.database();
+    auth = firebase.auth();
+    db = firebase.database();
     gProv = new firebase.auth.GoogleAuthProvider();
     fProv = new firebase.auth.FacebookAuthProvider();
     mProv = new firebase.auth.OAuthProvider('microsoft.com');
@@ -1011,6 +1039,7 @@ function toast(msg, type = 'success') {
   d.className = 'toast' + (type === 'error' ? ' error' : '');
   d.setAttribute('role', 'alert');
   d.innerHTML = '<i class="' + (type === 'error' ? 'fas fa-exclamation-circle' : 'fas fa-check-circle') + '"></i> ' + escapeHTML(msg);
+  const bar = document.createElement('div'); bar.className = 'toast-bar'; d.appendChild(bar);
   c.appendChild(d); setTimeout(() => d.remove(), 3100);
 }
 
@@ -1091,7 +1120,7 @@ function drawCart(push = true) {
       </div>
       <button class="remove-item" onclick="rmCart(${i.id})" aria-label="حذف"><i class="fas fa-trash"></i></button>
     </div>`).join('');
-  if (tot) tot.textContent = cart.reduce((s, i) => s + (i.price * i.quantity), 0).toLocaleString() + ' AED';
+  if (tot) animateTotal(tot, parseFloat(tot.textContent) || 0, cart.reduce((s, i) => s + (i.price * i.quantity), 0));
 }
 function chQty(id, d) { const it = cart.find(i => i.id === id); if (it) { it.quantity += d; if (it.quantity <= 0) cart = cart.filter(i => i.id !== id); drawCart(); } }
 function rmCart(id) { cart = cart.filter(i => i.id !== id); drawCart(); toast(t('removed_from_cart')); }
@@ -1100,6 +1129,26 @@ function addToCart(pid, qty = 1) {
   const ex = cart.find(i => i.id === pid);
   if (ex) ex.quantity += qty; else cart.push({ ...p, quantity: qty });
   drawCart(); toast(t('added_to_cart'));
+  flyToCart(pid);
+  const badge = document.getElementById('cartBadge'); if(badge) badge.classList.add('badge-pop');
+  setTimeout(() => { if(badge) badge.classList.remove('badge-pop'); }, 300);
+}
+function flyToCart(pid) {
+  const prodCard = document.querySelector(`.product-card .wishlist-btn[data-id="${pid}"]`)?.closest('.product-card');
+  const cartIcon = document.getElementById('cartIcon');
+  if(!prodCard || !cartIcon) return;
+  const start = prodCard.querySelector('.product-image img')?.getBoundingClientRect() || prodCard.getBoundingClientRect();
+  const end = cartIcon.getBoundingClientRect();
+  const dot = document.createElement('div'); dot.className = 'fly-dot'; dot.style.left = start.left+start.width/2+'px'; dot.style.top = start.top+start.height/2+'px';
+  document.body.appendChild(dot);
+  dot.animate([{transform:'scale(1)',opacity:1},{transform:`translate(${end.left-start.left}px, ${end.top-start.top}px) scale(0.2)`,opacity:0}],{duration:500,fill:'forwards'});
+  setTimeout(()=>dot.remove(),550);
+}
+function animateTotal(el, oldVal, newVal) {
+  if(oldVal===newVal) return;
+  const duration=300, steps=20, stepVal=(newVal-oldVal)/steps;
+  let cur=oldVal, i=0;
+  const interval=setInterval(()=>{ cur+=stepVal; i++; if(i>=steps){ el.textContent=newVal.toLocaleString()+' AED'; clearInterval(interval); } else el.textContent=Math.round(cur).toLocaleString()+' AED'; },duration/steps);
 }
 
 // ==========================================
@@ -1120,6 +1169,9 @@ function toggleWish(pid) {
   if (wishlist.includes(pid)) wishlist = wishlist.filter(x => x !== pid);
   else { wishlist.push(pid); toast(t('wishlist_added')); }
   upWC(); rwBtns(); saveWish();
+  const btn = document.querySelector(`.wishlist-btn[data-id="${pid}"]`);
+  if(btn) btn.classList.add('heart-pop');
+  setTimeout(()=>{if(btn) btn.classList.remove('heart-pop');},300);
 }
 function upWC() { const el = document.getElementById('wishlistCount'); if (el) { el.textContent = wishlist.length; el.style.display = wishlist.length ? 'flex' : 'none'; } }
 function rwBtns() { document.querySelectorAll('.wishlist-btn').forEach(b => b.classList.toggle('active', wishlist.includes(parseInt(b.dataset.id)))); }
@@ -1157,6 +1209,10 @@ function pcHTML(p) {
   const isWished = wishlist.includes(p.id);
   const tb = (p.tags || []).slice(0, 2).map(tag => `<span class="tag-badge">${tagLabel(tag)}</span>`).join('');
   const displayName = currentLang === 'en' && p.nameEn ? p.nameEn : p.name;
+  // Discount block
+  const priceBlock = (p.originalPrice && p.originalPrice > p.price)
+    ? `<div class="product-price"><span>${p.price.toLocaleString()} AED</span><span class="old-price">${p.originalPrice.toLocaleString()} AED</span><span class="discount-badge">-${Math.round((1-p.price/p.originalPrice)*100)}%</span></div>`
+    : `<div class="product-price">${p.price.toLocaleString()} AED</div>`;
   return `<article class="product-card" role="listitem">
     <div class="product-image" onclick="navigateTo('/product/${p.id}')">
       <img src="${sanitizeURL(p.image)}" alt="${escapeHTML(displayName)}" loading="lazy" onerror="this.src='https://placehold.co/400x300/eee/999?text=?'">
@@ -1167,7 +1223,7 @@ function pcHTML(p) {
     <div class="product-info" onclick="navigateTo('/product/${p.id}')">
       <h3>${escapeHTML(displayName)}</h3>
       ${rating > 0 ? `<div class="card-stars"><div class="stars-row">${starsHTML(rating)}</div><span class="card-rating-count">(${rcount})</span></div>` : ''}
-      <div class="product-price">${p.price.toLocaleString()} AED</div>
+      ${priceBlock}
       ${getStockBadge(stockNum)}
     </div>
     ${tb ? `<div class="product-tags-row">${tb}</div>` : ''}
@@ -1415,7 +1471,7 @@ function generateInvoice(orderData) {
   const dateStr = new Date(date).toLocaleDateString(currentLang==='ar'?'ar-AE':'en-AE', {year:'numeric',month:'long',day:'numeric'});
   const isAr = currentLang === 'ar';
   const subtotal = (items||[]).reduce((s,i) => s + i.price*i.quantity, 0);
-  const rows = (items||[]).map(item => `<tr><td>${escapeHTML(item.name)}</td><td style="text-align:center">${item.quantity}</td><td style="text-align:center">${item.price.toLocaleString()} AED</td><td style="text-align:center;font-weight:700">${(item.price*item.quantity).toLocaleString()} AED</td></tr>`).join('');
+  const rows = (items||[]).map(item => `<tr><td>${escapeHTML(item.name)}</td><td style="text-align:center">${item.quantity}</td><td style="text-align:center">${item.price.toLocaleString()} AED</td><td style="text-align:center;font-weight:700">${(item.price*item.quantity).toLocaleString()} AED</td>`).join('');
   document.getElementById('invoiceDoc').innerHTML = `
     <div class="invoice-doc" dir="rtl" lang="ar">
       <div class="inv-header">
@@ -1597,7 +1653,6 @@ function renderDetail(pid) {
               : `<button class="pd-btn-buy" onclick="buyNow(${p.id})"><i class="fas fa-bolt"></i> ${t('buy_now')}</button><button class="pd-btn-cart" onclick="addFromDetail(${p.id})"><i class="fas fa-cart-plus"></i> ${t('add_to_cart')}</button>`}
           </div>
         </div>
-        <!-- Recommendations injected here -->
         <div id="recsContainer" style="grid-column:1/-1"></div>
         <section class="reviews-section" aria-labelledby="reviewsTitle">
           <h3 id="reviewsTitle"><i class="fas fa-star" style="color:var(--clr-warning)"></i> ${t('reviews')}</h3>
@@ -1608,7 +1663,6 @@ function renderDetail(pid) {
       </div>
     </div>`;
 
-  // Init star picker
   currentReviewStars = 0;
   const stars = document.querySelectorAll('#starPicker i');
   function updateStarDisplay(val) { stars.forEach(st => { st.className = val && parseInt(st.dataset.s) <= val ? 'fas fa-star sel' : 'far fa-star'; }); }
@@ -1620,14 +1674,16 @@ function renderDetail(pid) {
   });
   window.getCurrentStars = () => currentReviewStars;
 
-  // Inject recommendations
   setTimeout(() => injectRecommendations(pid), 0);
   updatePageTexts();
 }
 
 window.adjQ = function(d) { const i = document.getElementById('qtyI'); if (i) { let v = parseInt(i.value)+d; if (v<1) v=1; if (v>99) v=99; i.value=v; } };
 window.addFromDetail = function(pid) { addToCart(pid, parseInt(document.getElementById('qtyI')?.value||1)); };
-window.buyNow = function(pid) { const q = parseInt(document.getElementById('qtyI')?.value||1); const p = products.find(x=>x.id===pid); if (p) { cart=[{...p,quantity:q}]; drawCart(); openPayment(); } };
+window.buyNow = function(pid) {
+  if (!currentUser) { toast(t('login_required'), 'error'); document.getElementById('authModal').classList.add('active'); return; }
+  const q = parseInt(document.getElementById('qtyI')?.value||1); const p = products.find(x=>x.id===pid); if (p) { cart=[{...p,quantity:q}]; drawCart(); openPayment(); }
+};
 
 function buildReviewForm(pid) {
   if (!currentUser) {
@@ -1650,8 +1706,7 @@ function buildReviewForm(pid) {
 
 const ADMIN_EMAIL = 'mrhma6722@gmail.com';
 
-
-// ── REVIEW EDIT / DELETE ──────────────────────────────────────
+// REVIEW EDIT / DELETE
 window.deleteMyReview = function(pid, reviewKey) {
   if (!currentUser || !db) return;
   if (!confirm(currentLang==='ar' ? 'حذف تقييمك؟' : 'Delete your review?')) return;
@@ -1670,7 +1725,6 @@ window.deleteMyReview = function(pid, reviewKey) {
 };
 
 window.openEditReview = function(pid, reviewKey, currentStars, currentText) {
-  // Build edit modal
   const overlay = document.createElement('div');
   overlay.id = 'editRevOv';
   overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:9000;display:flex;align-items:center;justify-content:center;padding:1rem';
@@ -1688,7 +1742,6 @@ window.openEditReview = function(pid, reviewKey, currentStars, currentText) {
       </div>
     </div>`;
   document.body.appendChild(overlay);
-  // Init star picker for edit modal
   let editStars = currentStars;
   overlay.querySelectorAll('.edit-star').forEach(star => {
     star.addEventListener('click', () => {
@@ -1756,7 +1809,6 @@ window.submitReview = function(pid) {
   const btn = document.querySelector('.submit-review-btn');
   if (btn) { btn.disabled = true; btn.style.opacity = '0.6'; }
 
-  // Check: purchased this product?
   db.ref('users/' + currentUser.uid + '/orders').once('value').then(ordSnap => {
     const orders = ordSnap.exists() ? Object.values(ordSnap.val()) : [];
     const purchased = orders.some(o => (o.order||[]).some(i => String(i.id) === String(pid)));
@@ -1765,7 +1817,6 @@ window.submitReview = function(pid) {
       if (btn) { btn.disabled = false; btn.style.opacity = ''; }
       return Promise.reject('not_purchased');
     }
-    // Check: already reviewed?
     return db.ref('products/' + pid + '/reviews').once('value');
   }).then(revSnap => {
     if (!revSnap) return;
@@ -1776,7 +1827,6 @@ window.submitReview = function(pid) {
       if (btn) { btn.disabled = false; btn.style.opacity = ''; }
       return Promise.reject('already_reviewed');
     }
-    // Save review
     const review = {
       stars, text, author: name,
       userId: currentUser.uid,
@@ -1786,16 +1836,14 @@ window.submitReview = function(pid) {
     };
     return db.ref('products/' + pid + '/reviews').push().set(review);
   }).then(res => {
-    if (res === undefined) return; // already rejected
-    // Update rating — read all reviews then write (use transaction-like approach)
+    if (res === undefined) return;
     return db.ref('products/' + pid + '/reviews').once('value').then(snap => {
       const all = snap.exists() ? Object.values(snap.val()) : [];
       const avg = all.length ? all.reduce((s,r) => s+(r.stars||0), 0) / all.length : 0;
-      // Try to update rating — if permission denied, skip silently (review is saved)
       return db.ref('products/' + pid).update({
         rating: Math.round(avg*10)/10,
         reviewCount: all.length
-      }).catch(() => {}); // ignore permission error on rating update
+      }).catch(() => {});
     });
   }).then(() => {
     toast(t('review_submitted'));
@@ -1864,9 +1912,6 @@ window.togLink = function(pid, cls) { const lk=currentUser.providerData.map(p=>p
 // ==========================================
 function showOrdersPage() { if (!reqLogin()) return; closeSet(); navigateTo('/orders'); }
 
-// ══════════════════════════════════════════
-// ORDER TRACKING DISPLAY
-// ══════════════════════════════════════════
 const CLIENT_TRACK_STATUSES = {
   pending:          { ar:'تم استلام الطلب',    en:'Order Received',     icon:'fa-clock',         cls:'pending' },
   processing:       { ar:'جاري التجهيز',       en:'Processing',         icon:'fa-box-open',      cls:'processing' },
@@ -1961,23 +2006,15 @@ function renderOrders() {
           <span style="color:var(--clr-primary);font-weight:700;font-size:.86rem">${(p.price*p.quantity).toLocaleString()} AED</span>
         </div>`).join('') || '<p style="color:var(--clr-text-muted);font-size:.83rem">—</p>';
 
-      // Status bar
       const statusBar = buildOrderStatusBar(o.status || 'pending');
-
-      // Tracking timeline
       const trackingHtml = buildTrackingTimeline(o.tracking || null);
-
-      // Last tracking info
       const trackingSteps = o.tracking ? Object.values(o.tracking).sort((a,b)=>new Date(b.date)-new Date(a.date)) : [];
       const lastTrackNum = trackingSteps.find(s=>s.trackingNumber);
       const lastCarrier = trackingSteps.find(s=>s.carrier);
-
-      // Store for invoice
       const orderKey = 'inv_' + (o.orderId || Date.now());
       try { sessionStorage.setItem(orderKey, JSON.stringify(o)); } catch(e) {}
 
       return `<div class="order-card">
-        <!-- Header: رقم الطلب + الحالة -->
         <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.5rem;margin-bottom:.9rem">
           <div>
             <div style="font-size:.72rem;color:var(--clr-text-muted);margin-bottom:.1rem"><i class="fas fa-hashtag"></i> ${isAr?'رقم الطلب':'Order ID'}</div>
@@ -1990,11 +2027,7 @@ function renderOrders() {
             </span>
           </div>
         </div>
-
-        <!-- شريط التقدم -->
         ${statusBar}
-
-        <!-- المنتجات -->
         <div style="margin:.8rem 0;background:var(--clr-bg);border-radius:var(--radius-sm);padding:.6rem .8rem;border:1px solid var(--clr-border)">
           <div style="font-size:.72rem;color:var(--clr-text-muted);margin-bottom:.4rem;font-weight:600"><i class="fas fa-box"></i> ${isAr?'المنتجات':'Items'}</div>
           ${itemsList}
@@ -2003,24 +2036,16 @@ function renderOrders() {
             <span style="color:var(--clr-primary)">${totalAmount} AED</span>
           </div>
         </div>
-
-        <!-- بيانات التوصيل -->
         <div style="font-size:.83rem;color:var(--clr-text-muted);margin-bottom:.5rem">
           <i class="fas fa-map-marker-alt" style="color:var(--clr-primary);width:16px"></i>
           ${escapeHTML(o.customer?.address || o.address || '—')}
         </div>
-
-        <!-- رقم التتبع إن وجد -->
         ${lastTrackNum ? `<div style="margin:.5rem 0;font-size:.8rem">
           <i class="fas fa-barcode" style="color:var(--clr-primary);width:16px"></i>
           <span class="track-num-badge">📦 ${escapeHTML(lastTrackNum.trackingNumber)}</span>
           ${lastCarrier ? `<span style="color:var(--clr-text-muted)"> · ${escapeHTML(lastCarrier.carrier)}</span>` : ''}
         </div>` : ''}
-
-        <!-- التايم لاين -->
         ${trackingHtml}
-
-        <!-- الأزرار -->
         <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.9rem">
           <button style="flex:1;padding:.55rem .8rem;background:var(--clr-primary-light);color:var(--clr-primary);border:1.5px solid var(--clr-primary);border-radius:var(--radius-sm);font-size:.82rem;font-weight:700;cursor:pointer"
                   onclick="openOrderDetail('${o.orderId||''}')">
@@ -2038,7 +2063,6 @@ function renderOrders() {
   updatePageTexts();
 }
 
-// فتح modal تفاصيل الطلب مع التتبع الكامل — يقرأ من Firebase مباشرة
 window.openOrderDetail = function(orderId) {
   if (!orderId || !currentUser || !db) return;
   const isAr = currentLang === 'ar';
@@ -2061,8 +2085,6 @@ window.openOrderDetail = function(orderId) {
     const html = `
       <div style="position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:3000;display:flex;align-items:flex-start;justify-content:center;padding:2rem 1rem;overflow-y:auto" id="orderDetailModal" onclick="if(event.target.id==='orderDetailModal')this.remove()">
         <div style="background:var(--clr-card);border-radius:18px;padding:1.8rem;max-width:560px;width:100%;border:1px solid var(--clr-border);margin:auto">
-
-          <!-- Header -->
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.2rem">
             <div>
               <div style="font-size:.7rem;color:var(--clr-text-muted)">${isAr?'رقم الطلب':'Order ID'}</div>
@@ -2077,11 +2099,7 @@ window.openOrderDetail = function(orderId) {
               </button>
             </div>
           </div>
-
-          <!-- شريط التقدم -->
           ${statusBar}
-
-          <!-- المنتجات -->
           <div style="background:var(--clr-bg);border-radius:var(--radius-sm);padding:.8rem;margin:.9rem 0;border:1px solid var(--clr-border)">
             <div style="font-size:.72rem;color:var(--clr-text-muted);font-weight:600;margin-bottom:.5rem"><i class="fas fa-box"></i> ${isAr?'المنتجات':'Items'}</div>
             ${itemsList}
@@ -2090,8 +2108,6 @@ window.openOrderDetail = function(orderId) {
               <span style="color:var(--clr-primary)">${(o.total||0).toLocaleString()} AED</span>
             </div>
           </div>
-
-          <!-- بيانات العميل -->
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-bottom:.9rem">
             <div style="background:var(--clr-bg);border-radius:10px;padding:.7rem;border:1px solid var(--clr-border)">
               <div style="font-size:.68rem;color:var(--clr-text-muted);margin-bottom:.15rem">${isAr?'الاسم':'Name'}</div>
@@ -2106,16 +2122,12 @@ window.openOrderDetail = function(orderId) {
               <div style="font-size:.86rem">${escapeHTML(o.customer?.address||'—')}</div>
             </div>
           </div>
-
-          <!-- نظام التتبع الكامل -->
           <div style="background:var(--clr-bg);border-radius:var(--radius-md);padding:1rem;border:1px solid var(--clr-border)">
             <div style="font-size:.82rem;font-weight:700;color:var(--clr-primary);margin-bottom:.8rem;display:flex;align-items:center;gap:.4rem">
               <i class="fas fa-route"></i> ${isAr?'تتبع الطلب':'Order Tracking'}
             </div>
             ${trackingHtml || `<p style="text-align:center;color:var(--clr-text-muted);font-size:.82rem;padding:.5rem">${isAr?'لا توجد تحديثات بعد':'No updates yet'}</p>`}
           </div>
-
-          <!-- زر الفاتورة -->
           <div style="margin-top:1rem">
             <button style="width:100%;padding:.65rem;background:var(--clr-primary);color:#fff;border:none;border-radius:var(--radius-sm);font-weight:700;cursor:pointer;font-size:.9rem"
                     onclick="document.getElementById('orderDetailModal').remove(); const _ik='inv_det_'+Date.now(); try{sessionStorage.setItem(_ik,JSON.stringify(window._lastOrderDetail||{}));}catch(e){} showOrderInvoice(_ik)">
@@ -2124,7 +2136,6 @@ window.openOrderDetail = function(orderId) {
           </div>
         </div>
       </div>`;
-
     const d = document.createElement('div');
     d.innerHTML = html;
     document.body.appendChild(d.firstChild);
@@ -2140,40 +2151,31 @@ window.showOrderInvoice = function(key) {
 };
 
 function loadOrders() {
-  // Helper: merge localStorage backup with Firebase orders
   function mergeWithLocal(firebaseOrders) {
     try {
       const localAll = JSON.parse(localStorage.getItem('orders_local') || '[]');
-      // Only add local orders not already in Firebase (by orderId)
       const firebaseIds = new Set(firebaseOrders.map(o => o.orderId).filter(Boolean));
       const localOnly = localAll.filter(o => o.orderId && !firebaseIds.has(o.orderId));
       return [...firebaseOrders, ...localOnly].sort((a,b) => new Date(a.date||0) - new Date(b.date||0));
     } catch(e) { return firebaseOrders; }
   }
-
-  // Guest: read from orders_guest + local backup
   if (!currentUser) {
     try {
       const guest = JSON.parse(localStorage.getItem('orders_guest') || '[]');
       return Promise.resolve(mergeWithLocal(guest));
     } catch(e) { return Promise.resolve([]); }
   }
-
-  // No DB: read only from local backup
   if (!db) {
     try {
       const local = JSON.parse(localStorage.getItem('orders_local') || '[]');
       return Promise.resolve(local);
     } catch(e) { return Promise.resolve([]); }
   }
-
-  // Logged in: read from Firebase with real-time tracking updates
   return db.ref('users/' + currentUser.uid + '/orders').once('value')
     .then(snap => {
       const fbOrders = snap.exists() ? Object.values(snap.val()) : [];
       const validOrders = fbOrders.filter(o => o && (o.customer || o.total || o.order));
       const merged = mergeWithLocal(validOrders);
-      // Setup real-time listener for status/tracking changes
       setupOrdersListener();
       return merged;
     })
@@ -2185,7 +2187,6 @@ function loadOrders() {
 let ordersListener = null;
 function setupOrdersListener() {
   if (!currentUser || !db || ordersListener) return;
-  // نستمع لمسار المستخدم — الأدمن يكتب فيه status وtracking مباشرة
   setTimeout(() => {
     if (!currentUser || !db || ordersListener) return;
     ordersListener = db.ref('users/' + currentUser.uid + '/orders').on('value', snap => {
@@ -2213,15 +2214,11 @@ function saveOrder(data) {
     date: data.date || new Date().toISOString(),
     status: 'pending'
   };
-
-  // دائماً احفظ في localStorage كـ backup
   try {
     const localOrders = JSON.parse(localStorage.getItem('orders_local') || '[]');
     localOrders.push({ ...orderData, savedAt: Date.now() });
     localStorage.setItem('orders_local', JSON.stringify(localOrders.slice(-50)));
   } catch(e) {}
-
-  // احفظ للـ guest
   if (!currentUser) {
     try {
       const guestOrders = JSON.parse(localStorage.getItem('orders_guest') || '[]');
@@ -2230,19 +2227,13 @@ function saveOrder(data) {
     } catch(e) {}
     return Promise.resolve(orderId);
   }
-
   if (!db) return Promise.resolve(orderId);
-
-  // احفظ في Firebase مع كل البيانات
   const firebaseData = {
     ...orderData,
     userId: currentUser.uid,
     userEmail: currentUser.email || '',
     userName: currentUser.displayName || (currentUser.email ? currentUser.email.split('@')[0] : 'مستخدم')
   };
-
-  // نستخدم orderId نفسه كـ key في Firebase حتى يتطابق مع نظام الأدمن
-  // الأدمن يكتب في: orders/{orderId} و users/{uid}/orders/{orderId}
   const dataWithMeta = { ...firebaseData, firebaseKey: orderId };
   return db.ref('users/' + currentUser.uid + '/orders/' + orderId).set(dataWithMeta)
     .then(() => db.ref('orders/' + orderId).set(dataWithMeta))
@@ -2287,6 +2278,12 @@ window.renderWishlist = renderWishlist;
 // PAYMENT
 // ==========================================
 function openPayment(prefill) {
+  if (!currentUser) {
+    toast(t('login_required'), 'error');
+    document.getElementById('paymentModal').classList.remove('active');
+    document.getElementById('authModal').classList.add('active');
+    return;
+  }
   if (!cart.length) { toast(t('empty_cart'),'error'); return; }
   const total = cart.reduce((s,i) => s+(i.price*i.quantity),0);
   const sum = document.getElementById('orderSummary');
@@ -2299,8 +2296,19 @@ function openPayment(prefill) {
 }
 window.openPaymentModal = openPayment;
 
+function launchConfetti() {
+  if (typeof confetti !== 'function') {
+    const script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/npm/canvas-confetti@1';
+    script.onload = () => { try { confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, startVelocity: 20, colors: ['#2563eb', '#7c3aed', '#10b981'] }); } catch(e) {} };
+    document.head.appendChild(script);
+  } else {
+    try { confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, startVelocity: 20, colors: ['#2563eb', '#7c3aed', '#10b981'] }); } catch(e) {}
+  }
+}
+
 window.sendWhatsapp = function() {
-  // التحقق من الحقول
+  if (!currentUser) { toast(t('login_required'),'error'); return; }
   const name=document.getElementById('payName')?.value?.trim(),
         email=document.getElementById('payEmail')?.value?.trim(),
         phone=document.getElementById('payPhone')?.value?.trim(),
@@ -2309,8 +2317,6 @@ window.sendWhatsapp = function() {
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { toast(currentLang==='ar'?'البريد الإلكتروني غير صحيح':'Invalid email','error'); return; }
 
   const total = cart.reduce((s,i) => s+(i.price*i.quantity),0);
-
-  // بناء رسالة واتساب
   let msg='🛍️ *طلب جديد من SmartTech Store*%0A%0A';
   msg+=`👤 *العميل:* ${encodeURIComponent(name)}%0A`;
   msg+=`📧 *البريد:* ${encodeURIComponent(email)}%0A`;
@@ -2319,7 +2325,6 @@ window.sendWhatsapp = function() {
   cart.forEach(i => { msg+=`- ${encodeURIComponent(i.name)} (${i.quantity} × ${i.price} AED) = ${i.price*i.quantity} AED%0A`; });
   msg+=`%0A💰 *الإجمالي:* ${total} AED%0A%0A✅ الرجاء التواصل لتأكيد الطلب`;
 
-  // بناء بيانات الطلب الكاملة
   const orderPayload = {
     customer: { fullName: name, email: email, phone: phone, address: addr },
     order: JSON.parse(JSON.stringify(cart)),
@@ -2327,12 +2332,8 @@ window.sendWhatsapp = function() {
     date: new Date().toISOString()
   };
 
-  // حفظ الطلب أولاً ثم إرسال واتساب
   saveOrder(orderPayload).then(orderId => {
-    // فتح واتساب
     window.open('https://wa.me/971563433056?text='+msg, '_blank', 'noopener,noreferrer');
-
-    // بناء بيانات الفاتورة
     const invoiceData = {
       orderId: orderId,
       customer: orderPayload.customer,
@@ -2341,22 +2342,15 @@ window.sendWhatsapp = function() {
       date: orderPayload.date,
       status: 'pending'
     };
-
-    // تنظيف السلة وإغلاق النافذة
     cart = [];
     drawCart();
     document.getElementById('paymentModal').classList.remove('active');
-    ['payName','payEmail','payPhone','payAddress'].forEach(id => {
-      const el = document.getElementById(id);
-      if (el) el.value = '';
-    });
+    ['payName','payEmail','payPhone','payAddress'].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
     toast(t('order_sent'));
-
-    // عرض الفاتورة
-    setTimeout(() => generateInvoice(invoiceData), 600);
+    setTimeout(() => { generateInvoice(invoiceData); setTimeout(() => launchConfetti(), 200); }, 600);
   }).catch(err => {
     console.error('Order error:', err);
-    toast(t('order_sent')); // still show success
+    toast(t('order_sent'));
   });
 };
 
@@ -2391,7 +2385,6 @@ function handleAuthChange(user) {
   const prev = currentUser; currentUser = user; updUI(); updateUserContainer();
   if (user) {
     if (db) {
-      // تسجيل / تحديث بيانات المستخدم فور تسجيل الدخول أو إنشاء الحساب
       db.ref('users/'+user.uid+'/profile').once('value').then(snap => {
         const ex = snap.exists() ? snap.val() : {};
         const profileData = {
@@ -2403,7 +2396,6 @@ function handleAuthChange(user) {
           lastLogin: new Date().toISOString(),
           provider: (user.providerData && user.providerData[0]) ? user.providerData[0].providerId : 'password'
         };
-        // حفظ في /users/{uid}/profile (للأدمن يشوفه)
         return db.ref('users/'+user.uid+'/profile').set(profileData);
       }).catch(()=>{});
     }
@@ -2444,12 +2436,69 @@ function closeSettingsAndGo(s) { document.getElementById('settingsModal').classL
 window.closeSettingsAndGo = closeSettingsAndGo;
 
 // ==========================================
+// SCROLL REVEAL
+// ==========================================
+function initScrollReveal() {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) { entry.target.classList.add('sr-show'); observer.unobserve(entry.target); }
+    });
+  }, { threshold: 0.12, rootMargin: '20px' });
+  document.querySelectorAll('.product-card, .rec-card, .order-card, .address-card, .review-card').forEach(el => {
+    el.classList.add('sr-hide'); observer.observe(el);
+  });
+  return observer;
+}
+let revealObserver = null;
+function watchAppMutations() {
+  const targetNode = document.getElementById('app');
+  if (!targetNode) return;
+  const config = { childList: true, subtree: true };
+  const callback = function(mutationsList, observer) {
+    for (const mutation of mutationsList) {
+      if (mutation.type === 'childList' && mutation.addedNodes.length) {
+        if (revealObserver) revealObserver.disconnect();
+        revealObserver = initScrollReveal();
+        break;
+      }
+    }
+  };
+  const mutationObserver = new MutationObserver(callback);
+  mutationObserver.observe(targetNode, config);
+}
+
+// ==========================================
+// FAB & PAGE FADE
+// ==========================================
+function injectFAB() {
+  if (document.getElementById('fabContainer')) return;
+  const fabDiv = document.createElement('div'); fabDiv.id = 'fabContainer';
+  fabDiv.innerHTML = `<button id="fabWA" aria-label="واتساب"><i class="fab fa-whatsapp"></i></button><button id="fabTop" aria-label="للأعلى" style="opacity:0;visibility:hidden"><i class="fas fa-arrow-up"></i></button>`;
+  document.body.appendChild(fabDiv);
+  const fabTop = document.getElementById('fabTop');
+  window.addEventListener('scroll', () => { if (window.scrollY > 350) { fabTop.style.opacity = '1'; fabTop.style.visibility = 'visible'; } else { fabTop.style.opacity = '0'; fabTop.style.visibility = 'hidden'; } });
+  fabTop.addEventListener('click', () => { window.scrollTo({ top: 0, behavior: 'smooth' }); });
+  document.getElementById('fabWA')?.addEventListener('click', () => { if (currentUser) openPayment(); else { toast(t('login_required'), 'error'); document.getElementById('authModal').classList.add('active'); } });
+}
+function initPageFade() {
+  const appDiv = document.getElementById('app');
+  if (!appDiv) return;
+  const originalRenderRoute = renderRoute;
+  window.renderRoute = function(path) {
+    appDiv.classList.add('page-fade');
+    setTimeout(() => { originalRenderRoute(path); setTimeout(() => appDiv.classList.remove('page-fade'), 80); }, 60);
+  };
+  renderRoute = window.renderRoute;
+  const origHashChange = window.onhashchange;
+  window.addEventListener('hashchange', () => { appDiv.classList.add('page-fade'); setTimeout(() => appDiv.classList.remove('page-fade'), 150); });
+}
+
+// ==========================================
 // INIT
 // ==========================================
 function init() {
   loadDark(); loadLanguage(); drawCart(false); renderRoute(getHash());
 
-  // Smart Search
   document.getElementById('searchIcon')?.addEventListener('click', openSmartSearch);
   document.getElementById('closeSearch')?.addEventListener('click', ()=>document.getElementById('searchModal').classList.remove('active'));
   document.getElementById('searchInput')?.addEventListener('input', e=>{ clearTimeout(searchDebounceTimer); searchDebounceTimer=setTimeout(()=>renderSearchBody(e.target.value.trim()),180); });
@@ -2477,6 +2526,10 @@ function init() {
   else {
     window.addEventListener('load', ()=>{ if(typeof firebase!=='undefined'){initFirebase();} loadProducts(); })
   }
+
+  injectFAB();
+  initPageFade();
+  setTimeout(() => { revealObserver = initScrollReveal(); watchAppMutations(); }, 500);
 }
 document.addEventListener('DOMContentLoaded', init);
 </script>
